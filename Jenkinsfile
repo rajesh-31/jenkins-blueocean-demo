@@ -1,44 +1,35 @@
 pipeline {
   agent any
   stages {
-    stage('build') {
-      steps {
-        echo 'this is for build'
-      }
-    }
-
-    stage('test') {
-      steps {
-        sh '''pwd
-ls
-echo \'this is for testing\' > sample.txt'''
-      }
-    }
-
-    stage('deploy in test') {
-      parallel {
-        stage('deploy in test') {
-          steps {
-            sleep 10
-            echo 'deploy in QA enviroment'
-          }
+    stage('A') {
+      post {
+        always {
+          echo '========always========'
         }
 
-        stage('parallel') {
-          steps {
-            echo 'parallel practice'
-          }
+        success {
+          echo '========A executed successfully========'
+        }
+
+        failure {
+          echo '========A execution failed========'
         }
 
       }
-    }
-
-    stage('deploy in prod.') {
       steps {
-        sh '''echo \'deploy the code in producton eviroment\'
-date'''
+        echo '========executing A========'
       }
     }
 
+    stage('B') {
+      steps {
+        sh 'echo "user_name"'
+        sh 'echo "BUILS_ID"'
+      }
+    }
+
+  }
+  parameters {
+    string(defaultValue: 'rajesh', description: 'who are you ?', name: 'user_name')
   }
 }
