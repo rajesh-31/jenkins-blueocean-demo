@@ -1,35 +1,35 @@
-pipeline {
-  agent any
-  stages {
-    stage('A') {
-      post {
-        always {
-          echo '========always========'
+pipeline{
+    agent any
+     tools{
+        maven 'Maven'
         }
-
-        success {
-          echo '========A executed successfully========'
+    stages{
+        stage("test the code"){
+            steps{
+                echo "========executing A========"
+                sh 'date'
+            }
         }
-
-        failure {
-          echo '========A execution failed========'
+        stage('build'){
+            steps{
+                echo "build the code"
+            }
         }
-
-      }
-      steps {
-        echo '========executing A========'
-      }
+        stage("deploy in prod"){
+            steps{
+                echo "deploy thr image in production"
+            }
+        }
     }
-
-    stage('B') {
-      steps {
-        sh 'echo "user_name"'
-        sh 'echo "BUILS_ID"'
-      }
+    post{
+        always{
+            echo "========always========"
+        }
+        success{
+            echo "pipeline executed successfull"
+        }
+        failure{
+            echo "pipeline execution failed"
+        }
     }
-
-  }
-  parameters {
-    string(defaultValue: 'rajesh', description: 'who are you ?', name: 'user_name')
-  }
 }
