@@ -35,7 +35,9 @@ echo \'this is for testing\' > sample.txt'''
 
     stage('deploy in prod.') {
       steps {
-        sh 'echo \'deploy the code in producton eviroment\''
+        sh '''echo \'deploy the code in producton eviroment\'
+date
+cal'''
       }
     }
 
